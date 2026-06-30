@@ -1,0 +1,103 @@
+default:
+  image: python:3.11-slim
+
+stages:
+  - lint
+  - test
+  - build
+  - deploy
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  REGISTRY: "$CI_REGISTRY"
+  IMAGE_TAG: "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA"
+
+cache:
+  paths:
+    - .cache/pip
+    - backend/.venv/
+
+# ─── Lint ─────────────────────────────────────────────────────────────────────
+ruff:
+  stage: lint
+  script:
+    - cd backend
+    - pip install ruff --quiet
+    - ruff check .
+    - ruff format --check .
+
+mypy:
+  stage: lint
+  script:
+    - cd backend
+    - pip install uv --quiet
+    - uv pip install --system -e ".[dev]" --quiet
+    - mypy app jobs
+
+# ─── Test ─────────────────────────────────────────────────────────────────────
+pytest:
+  stage: test
+  services:
+    - postgres:16-alpine
+  variables:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: assetrisk_test
+    DATABASE_URL: postgresql://postgres:postgres@postgres:5432/assetrisk_test
+  script:
+    - cd backend
+    - pip install uv --quiet
+    - uv pip install --system -e ".[dev]" --quiet
+    - alembic upgrade head
+    - pytest -v --tb=short
+
+# ─── Build ────────────────────────────────────────────────────────────────────
+build-backend:
+  stage: build
+  image: docker:26
+  services:
+    - docker:26-dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$IMAGE_TAG" ./backend
+    - docker push "$IMAGE_TAG"
+    - docker tag "$IMAGE_TAG" "$CI_REGISTRY_IMAGE/backend:latest"
+    - docker push "$CI_REGISTRY_IMAGE/backend:latest"
+  only:
+    - main
+
+# ─── Deploy ───────────────────────────────────────────────────────────────────
+deploy-staging:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli:latest
+  environment:
+    name: staging
+    url: $STAGING_URL
+  script:
+    - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
+    - az deployment group create
+        --resource-group "$AZURE_RG_STAGING"
+        --template-file infra/main.bicep
+        --parameters env=staging imageTag="$CI_COMMIT_SHA"
+                     dbAdminPassword="$DB_PASSWORD_STAGING"
+                     secretKey="$SECRET_KEY_STAGING"
+  only:
+    - main
+
+deploy-prod:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli:latest
+  environment:
+    name: production
+    url: $PROD_URL
+  script:
+    - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
+    - az deployment group create
+        --resource-group "$AZURE_RG_PROD"
+        --template-file infra/main.bicep
+        --parameters env=prod imageTag="$CI_COMMIT_SHA"
+                     dbAdminPassword="$DB_PASSWORD_PROD"
+                     secretKey="$SECRET_KEY_PROD"
+  when: manual
+  only:
+    - main
