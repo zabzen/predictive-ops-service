@@ -1,5 +1,6 @@
 import { useAssets, useLatestRiskScores } from "../api/queries";
 import { RiskBadge } from "../components/RiskBadge";
+import { InfoIcon } from "../components/InfoIcon";
 import { Link } from "react-router-dom";
 import type { Asset } from "../api/types";
 
@@ -18,6 +19,10 @@ export function DashboardPage() {
       <h1 className="mb-6 text-2xl font-bold text-slate-900">Risk Dashboard</h1>
 
       {/* Summary cards */}
+      <div className="mb-2 flex items-center gap-1.5">
+        <h2 className="text-sm font-medium text-slate-600">Summary</h2>
+        <InfoIcon id="dashboard.summaryCards" />
+      </div>
       <div className="mb-8 grid grid-cols-3 gap-4">
         {[
           { label: "Total Assets", value: assets.data?.length ?? "—" },
@@ -44,7 +49,10 @@ export function DashboardPage() {
       {/* Risk table */}
       <div className="rounded-lg border bg-white shadow-sm">
         <div className="border-b px-4 py-3">
-          <h2 className="font-semibold text-slate-800">Assets by Risk</h2>
+          <div className="flex items-center gap-1.5">
+            <h2 className="font-semibold text-slate-800">Assets by Risk</h2>
+            <InfoIcon id="dashboard.riskTable" />
+          </div>
         </div>
         {scores.isLoading || assets.isLoading ? (
           <p className="p-6 text-sm text-slate-500">Loading…</p>

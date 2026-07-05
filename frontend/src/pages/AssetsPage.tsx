@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAssets, useCreateAsset, useDeleteAsset, useUploadCsv } from "../api/queries";
 import type { AssetType } from "../api/types";
 import { useMe } from "../api/queries";
+import { InfoIcon } from "../components/InfoIcon";
 
 const ASSET_TYPES: AssetType[] = ["pump", "compressor", "motor", "turbine", "heat_exchanger", "other"];
 
@@ -40,10 +41,13 @@ export function AssetsPage() {
         <h1 className="text-2xl font-bold text-slate-900">Assets</h1>
         {isAdmin && (
           <div className="flex gap-2">
-            <label className="cursor-pointer rounded border bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
-              Upload CSV
-              <input ref={fileRef} type="file" accept=".csv" className="hidden" onChange={handleCsvUpload} />
-            </label>
+            <div className="flex items-center gap-1">
+              <label className="cursor-pointer rounded border bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                Upload CSV
+                <input ref={fileRef} type="file" accept=".csv" className="hidden" onChange={handleCsvUpload} />
+              </label>
+              <InfoIcon id="assets.csvUpload" />
+            </div>
             <button
               onClick={() => setShowForm((v) => !v)}
               className="rounded bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-700"
@@ -68,7 +72,9 @@ export function AssetsPage() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-xs font-medium text-slate-600">Type *</span>
+              <span className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-600">
+                Type * <InfoIcon id="assets.assetTypeField" />
+              </span>
               <select
                 value={form.asset_type}
                 onChange={(e) => setForm((f) => ({ ...f, asset_type: e.target.value as AssetType }))}
@@ -104,7 +110,7 @@ export function AssetsPage() {
         <p className="mb-4 text-sm text-red-600">CSV upload failed. Check column format.</p>
       )}
 
-      <div className="rounded-lg border bg-white shadow-sm">
+      <div className="overflow-hidden rounded-lg border bg-white shadow-sm">
         {assets.isLoading ? (
           <p className="p-6 text-sm text-slate-500">Loading…</p>
         ) : (assets.data?.length ?? 0) === 0 ? (
@@ -116,7 +122,11 @@ export function AssetsPage() {
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Type</th>
                 <th className="px-4 py-3">Location</th>
-                <th className="px-4 py-3">Added</th>
+                <th className="px-4 py-3">
+                  <span className="flex items-center gap-1">
+                    Added <InfoIcon id="assets.addedColumn" />
+                  </span>
+                </th>
                 {isAdmin && <th className="px-4 py-3" />}
               </tr>
             </thead>

@@ -5,6 +5,7 @@ import {
 } from "recharts";
 import { useAsset, useCreateReading, useReadings, useRiskScores } from "../api/queries";
 import { RiskBadge } from "../components/RiskBadge";
+import { InfoIcon } from "../components/InfoIcon";
 
 export function AssetDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -71,7 +72,10 @@ export function AssetDetailPage() {
       {/* Chart */}
       {chartData.length > 0 && (
         <div className="mb-8 rounded-lg border bg-white p-4 shadow-sm">
-          <h2 className="mb-3 font-semibold text-slate-800">Sensor Readings</h2>
+          <div className="mb-3 flex items-center gap-1.5">
+            <h2 className="font-semibold text-slate-800">Sensor Readings</h2>
+            <InfoIcon id="assetDetail.sensorChart" />
+          </div>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -89,7 +93,10 @@ export function AssetDetailPage() {
 
       {/* Manual reading entry */}
       <div className="mb-8 rounded-lg border bg-white p-4 shadow-sm">
-        <h2 className="mb-3 font-semibold text-slate-800">Add Reading</h2>
+        <div className="mb-3 flex items-center gap-1.5">
+          <h2 className="font-semibold text-slate-800">Add Reading</h2>
+          <InfoIcon id="assetDetail.addReadingForm" />
+        </div>
         <form onSubmit={submit} className="grid grid-cols-3 gap-3">
           {[
             { key: "recorded_at", label: "Date/Time", type: "datetime-local", required: true },
@@ -132,7 +139,11 @@ export function AssetDetailPage() {
               <th className="px-4 py-3">Vibration</th>
               <th className="px-4 py-3">Pressure</th>
               <th className="px-4 py-3">Flow</th>
-              <th className="px-4 py-3">Source</th>
+              <th className="px-4 py-3">
+                <span className="flex items-center gap-1">
+                  Source <InfoIcon id="assetDetail.sourceColumn" />
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>

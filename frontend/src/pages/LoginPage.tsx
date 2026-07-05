@@ -1,6 +1,7 @@
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../api/queries";
+import { InfoIcon } from "../components/InfoIcon";
 
 export function LoginPage() {
   const [email, setEmail] = useState("admin@acme.example");
@@ -46,8 +47,8 @@ export function LoginPage() {
         >
           {login.isPending ? "Signing in…" : "Sign in"}
         </button>
-        <p className="mt-4 text-xs text-slate-400">
-          Demo: admin@acme.example / acme-admin-pw
+        <p className="mt-4 flex items-center gap-1 text-xs text-slate-400">
+          Demo: admin@acme.example / acme-admin-pw <InfoIcon id="login.demoCredentials" />
         </p>
       </form>
     </div>
