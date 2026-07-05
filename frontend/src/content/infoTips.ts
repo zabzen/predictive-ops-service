@@ -7,7 +7,7 @@ export type InfoId =
   | "assetDetail.sensorChart"
   | "assetDetail.addReadingForm"
   | "assetDetail.sourceColumn"
-  | "login.demoCredentials";
+  | "login.authFlow";
 
 interface InfoTip {
   technical: string;
@@ -63,10 +63,10 @@ export const INFO_TIPS: Record<InfoId, InfoTip> = {
     business:
       "Useful for auditing data provenance - e.g. spotting whether a suspicious reading was a manual typo or came from an automated feed.",
   },
-  "login.demoCredentials": {
+  "login.authFlow": {
     technical:
-      "These credentials are created by the non-production /auth/seed-demo endpoint (excluded from the OpenAPI schema) and are pre-filled as the form's default state in this demo build.",
+      "POST /auth/login checks the submitted password against the user's bcrypt hash (app/auth.py verify_password). On success the backend issues a JWT (HS256, signed with SECRET_KEY) embedding the user id, tenant_id, and role, expiring after ACCESS_TOKEN_EXPIRE_MINUTES. The frontend stores it in localStorage and attaches it as a Bearer header on every request (api/client.ts); a 401 clears the token and redirects back here.",
     business:
-      "This login screen is configured for demos/evaluation only - in a real deployment these fields would be empty and this seed endpoint would not exist.",
+      "Your tenant and role are baked into the token at login time, so a role change only takes effect after you sign out and back in. The token stays valid for a fixed window regardless of activity - there's no idle timeout, and no way to revoke a single token early short of rotating SECRET_KEY.",
   },
 };

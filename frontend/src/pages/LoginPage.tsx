@@ -4,8 +4,8 @@ import { useLogin } from "../api/queries";
 import { InfoIcon } from "../components/InfoIcon";
 
 export function LoginPage() {
-  const [email, setEmail] = useState("admin@acme.example");
-  const [password, setPassword] = useState("acme-admin-pw");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const login = useLogin();
   const navigate = useNavigate();
 
@@ -18,7 +18,10 @@ export function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50">
       <form onSubmit={submit} className="w-full max-w-sm rounded-lg border bg-white p-8 shadow-sm">
-        <h1 className="mb-6 text-2xl font-bold text-slate-900">Predictive Ops Service</h1>
+        <div className="mb-6 flex items-center gap-1.5">
+          <h1 className="text-2xl font-bold text-slate-900">Predictive Ops Service</h1>
+          <InfoIcon id="login.authFlow" />
+        </div>
         <label className="mb-4 block">
           <span className="mb-1 block text-sm font-medium text-slate-700">Email</span>
           <input
@@ -47,9 +50,6 @@ export function LoginPage() {
         >
           {login.isPending ? "Signing in…" : "Sign in"}
         </button>
-        <p className="mt-4 flex items-center gap-1 text-xs text-slate-400">
-          Demo: admin@acme.example / acme-admin-pw <InfoIcon id="login.demoCredentials" />
-        </p>
       </form>
     </div>
   );

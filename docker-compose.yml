@@ -3,7 +3,7 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: assetrisk
     ports:
       - "5432:5432"
@@ -18,8 +18,13 @@ services:
   backend:
     build: ./backend
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/assetrisk
-      SECRET_KEY: dev-secret-change-in-production
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/assetrisk
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      ENVIRONMENT: dev
+      DEMO_ACME_EMAIL: ${DEMO_ACME_EMAIL:-admin@acme.example}
+      DEMO_ACME_PASSWORD: ${DEMO_ACME_PASSWORD:-acme-admin-pw}
+      DEMO_BETA_EMAIL: ${DEMO_BETA_EMAIL:-admin@beta.example}
+      DEMO_BETA_PASSWORD: ${DEMO_BETA_PASSWORD:-beta-admin-pw}
     ports:
       - "8000:8000"
     depends_on:
@@ -47,7 +52,7 @@ services:
   inference-job:
     build: ./backend
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/assetrisk
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/assetrisk
     depends_on:
       db:
         condition: service_healthy

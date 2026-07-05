@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.auth import create_access_token, hash_password, verify_password
+from app.config import settings
 from app.database import get_db
 from app.deps import CurrentUser
 from app.models.tenant import Tenant
@@ -32,10 +33,12 @@ def me(current_user: CurrentUser) -> UserOut:
 
 @router.post("/seed-demo", include_in_schema=False)
 def seed_demo(db: Session = Depends(get_db)) -> dict[str, str]:
-    """Creates two demo tenants with admin users. Remove before production."""
+    """Creates two demo tenants with admin users. Disabled unless ENVIRONMENT=dev."""
+    if settings.environment != "dev":
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     tenants_data = [
-        ("Acme Industrial", "acme", "admin@acme.example", "acme-admin-pw"),
-        ("Beta Corp", "beta", "admin@beta.example", "beta-admin-pw"),
+        ("Acme Industrial", "acme", settings.demo_acme_email, settings.demo_acme_password),
+        ("Beta Corp", "beta", settings.demo_beta_email, settings.demo_beta_password),
     ]
     for name, slug, email, password in tenants_data:
         if db.query(Tenant).filter(Tenant.slug == slug).first():
