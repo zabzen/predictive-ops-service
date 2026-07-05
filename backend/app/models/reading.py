@@ -35,7 +35,7 @@ class Reading(Base):
     recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
     source: Mapped[ReadingSource] = mapped_column(String(32), nullable=False, default=ReadingSource.manual)
 
-    # Core sensor values — nullable so partial readings are allowed
+    # Core sensor values - nullable so partial readings are allowed
     temperature_c: Mapped[float | None] = mapped_column(Float)
     vibration_mm_s: Mapped[float | None] = mapped_column(Float)
     pressure_bar: Mapped[float | None] = mapped_column(Float)

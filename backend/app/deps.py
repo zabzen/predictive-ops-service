@@ -1,4 +1,4 @@
-"""FastAPI dependencies — tenant isolation and RBAC enforced here, not in routes."""
+"""FastAPI dependencies - tenant isolation and RBAC enforced here, not in routes."""
 
 import uuid
 from typing import Annotated
@@ -46,7 +46,7 @@ AdminUser = Annotated[User, Depends(require_admin)]
 def get_tenant_id(current_user: CurrentUser) -> uuid.UUID:
     """Returns the tenant_id of the authenticated user.
 
-    All queries MUST scope to this value — never accept tenant_id from the request body.
+    All queries MUST scope to this value - never accept tenant_id from the request body.
     """
     return current_user.tenant_id
 

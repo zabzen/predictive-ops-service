@@ -1,6 +1,6 @@
 # predictive-ops-service
 
-Industrial asset risk monitoring platform — multi-tenant SaaS prototype demonstrating:
+Industrial asset risk monitoring platform - multi-tenant SaaS prototype demonstrating:
 
 - **FastAPI** + **SQLAlchemy 2** + **Alembic** migrations
 - **React 19** + **TypeScript** + **Vite** + **TanStack Query**
@@ -97,7 +97,7 @@ Tenant (id, name, slug)
                        feature_contributions JSON)
 ```
 
-`tenant_id` is denormalised onto every table and enforced in `app/deps.py` — never accepted from the request.
+`tenant_id` is denormalised onto every table and enforced in `app/deps.py` - never accepted from the request.
 
 ## Entra External ID
 

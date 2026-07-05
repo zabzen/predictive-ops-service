@@ -19,7 +19,7 @@ export const INFO_TIPS: Record<InfoId, InfoTip> = {
     technical:
       "Computed client-side from the latest /risk-scores/latest response. \"High Risk\" counts scores with risk_probability >= 0.7; \"Avg Risk\" is the mean probability across all scored assets.",
     business:
-      "0.7 is the threshold ops teams use to flag an asset for inspection this week. These numbers refresh whenever the dashboard reloads — they are a snapshot, not a live feed.",
+      "0.7 is the threshold ops teams use to flag an asset for inspection this week. These numbers refresh whenever the dashboard reloads - they are a snapshot, not a live feed.",
   },
   "dashboard.riskTable": {
     technical:
@@ -37,11 +37,11 @@ export const INFO_TIPS: Record<InfoId, InfoTip> = {
     technical:
       "Required columns: asset_id, recorded_at. Optional: temperature_c, vibration_mm_s, pressure_bar, flow_rate_m3h, operating_hours. Every asset_id in the file must already exist under your tenant or the whole upload is rejected.",
     business:
-      "Use this to bulk-load historical sensor readings for assets you've already created. If you get an \"unknown asset_id\" error, create the asset first — this endpoint never creates new assets.",
+      "Use this to bulk-load historical sensor readings for assets you've already created. If you get an \"unknown asset_id\" error, create the asset first - this endpoint never creates new assets.",
   },
   "assets.addedColumn": {
     technical:
-      "This is created_at — the timestamp the asset row was inserted into the database. It is not commissioned_at (equipment install date), which isn't shown in this table.",
+      "This is created_at - the timestamp the asset row was inserted into the database. It is not commissioned_at (equipment install date), which isn't shown in this table.",
     business:
       "Use this to see when an asset was registered in the system, not when the physical equipment went into service.",
   },
@@ -49,7 +49,7 @@ export const INFO_TIPS: Record<InfoId, InfoTip> = {
     technical:
       "Plots the last 50 readings for this asset, reversed to oldest-to-newest for the X axis. Three series: temperature (°C), vibration (mm/s), pressure (bar).",
     business:
-      "This is a recent-trend view, not the full history — use the Reading History table below for older data.",
+      "This is a recent-trend view, not the full history - use the Reading History table below for older data.",
   },
   "assetDetail.addReadingForm": {
     technical:
@@ -61,12 +61,12 @@ export const INFO_TIPS: Record<InfoId, InfoTip> = {
     technical:
       "Three possible values: manual (entered via this page's Add Reading form), csv_upload (bulk-imported via the Assets page), api_pull (ingested from an external system/integration).",
     business:
-      "Useful for auditing data provenance — e.g. spotting whether a suspicious reading was a manual typo or came from an automated feed.",
+      "Useful for auditing data provenance - e.g. spotting whether a suspicious reading was a manual typo or came from an automated feed.",
   },
   "login.demoCredentials": {
     technical:
       "These credentials are created by the non-production /auth/seed-demo endpoint (excluded from the OpenAPI schema) and are pre-filled as the form's default state in this demo build.",
     business:
-      "This login screen is configured for demos/evaluation only — in a real deployment these fields would be empty and this seed endpoint would not exist.",
+      "This login screen is configured for demos/evaluation only - in a real deployment these fields would be empty and this seed endpoint would not exist.",
   },
 };

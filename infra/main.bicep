@@ -1,4 +1,4 @@
-@description('Environment name — dev / staging / prod')
+@description('Environment name - dev / staging / prod')
 param env string = 'dev'
 
 @description('Azure region')

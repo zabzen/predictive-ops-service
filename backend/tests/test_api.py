@@ -1,4 +1,4 @@
-"""Integration tests — hit the real DB, no mocking."""
+"""Integration tests - hit the real DB, no mocking."""
 
 
 def test_health(client):

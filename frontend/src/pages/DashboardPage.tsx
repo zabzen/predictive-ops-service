@@ -25,7 +25,7 @@ export function DashboardPage() {
       </div>
       <div className="mb-8 grid grid-cols-3 gap-4">
         {[
-          { label: "Total Assets", value: assets.data?.length ?? "—" },
+          { label: "Total Assets", value: assets.data?.length ?? "-" },
           {
             label: "High Risk",
             value: (scores.data ?? []).filter((s) => s.risk_probability >= 0.7).length,
@@ -36,7 +36,7 @@ export function DashboardPage() {
             value:
               scores.data && scores.data.length > 0
                 ? `${Math.round((scores.data.reduce((s, r) => s + r.risk_probability, 0) / scores.data.length) * 100)}%`
-                : "—",
+                : "-",
           },
         ].map(({ label, value, className }) => (
           <div key={label} className="rounded-lg border bg-white p-4 shadow-sm">
@@ -83,7 +83,7 @@ export function DashboardPage() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 capitalize text-slate-600">{asset?.asset_type?.replace("_", " ")}</td>
-                    <td className="px-4 py-3 text-slate-600">{asset?.location ?? "—"}</td>
+                    <td className="px-4 py-3 text-slate-600">{asset?.location ?? "-"}</td>
                     <td className="px-4 py-3">
                       <RiskBadge probability={score.risk_probability} />
                     </td>

@@ -150,10 +150,10 @@ export function AssetDetailPage() {
             {(readings.data ?? []).slice(0, 50).map((r) => (
               <tr key={r.id} className="border-b last:border-0 hover:bg-slate-50">
                 <td className="px-4 py-2 text-slate-700">{new Date(r.recorded_at).toLocaleString()}</td>
-                <td className="px-4 py-2 text-slate-600">{r.temperature_c ?? "—"}</td>
-                <td className="px-4 py-2 text-slate-600">{r.vibration_mm_s ?? "—"}</td>
-                <td className="px-4 py-2 text-slate-600">{r.pressure_bar ?? "—"}</td>
-                <td className="px-4 py-2 text-slate-600">{r.flow_rate_m3h ?? "—"}</td>
+                <td className="px-4 py-2 text-slate-600">{r.temperature_c ?? "-"}</td>
+                <td className="px-4 py-2 text-slate-600">{r.vibration_mm_s ?? "-"}</td>
+                <td className="px-4 py-2 text-slate-600">{r.pressure_bar ?? "-"}</td>
+                <td className="px-4 py-2 text-slate-600">{r.flow_rate_m3h ?? "-"}</td>
                 <td className="px-4 py-2 text-xs text-slate-400">{r.source}</td>
               </tr>
             ))}

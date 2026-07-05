@@ -26,7 +26,7 @@ def list_risk_scores(
 
 @router.get("/latest", response_model=list[RiskScoreOut])
 def latest_risk_scores(tenant_id: TenantId, db: Session = Depends(get_db)) -> list[RiskScore]:
-    """Returns the most recent risk score per asset — the dashboard view."""
+    """Returns the most recent risk score per asset - the dashboard view."""
     from sqlalchemy import func
 
     subq = (

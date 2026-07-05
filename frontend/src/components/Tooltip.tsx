@@ -15,7 +15,7 @@ import {
 } from "@floating-ui/react";
 
 interface Props {
-  /** Trigger element — must accept a ref and forward extra props (a plain <button>/<span> works). */
+  /** Trigger element - must accept a ref and forward extra props (a plain <button>/<span> works). */
   children: ReactElement;
   content: ReactNode;
   panelClassName?: string;
@@ -23,10 +23,10 @@ interface Props {
 
 /**
  * Reusable hover/focus/click-triggered floating panel, built on @floating-ui/react.
- * Positioning (flip + shift) is automatic — no manual "align" prop needed, and no
+ * Positioning (flip + shift) is automatic - no manual "align" prop needed, and no
  * clipping by ancestor overflow since the panel renders through a portal.
  *
- * This is the base primitive for other floating UI (menus, popovers, etc.) — those
+ * This is the base primitive for other floating UI (menus, popovers, etc.) - those
  * should compose useFloating/useInteractions directly rather than wrapping this
  * component, since a menu's interaction set (click + arrow-key nav + role="menu")
  * differs from a tooltip's (hover/focus + role="tooltip").

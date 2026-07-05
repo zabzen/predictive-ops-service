@@ -139,7 +139,7 @@ export function AssetsPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3 capitalize text-slate-600">{asset.asset_type.replace("_", " ")}</td>
-                  <td className="px-4 py-3 text-slate-600">{asset.location ?? "—"}</td>
+                  <td className="px-4 py-3 text-slate-600">{asset.location ?? "-"}</td>
                   <td className="px-4 py-3 text-slate-600">{new Date(asset.created_at).toLocaleDateString()}</td>
                   {isAdmin && (
                     <td className="px-4 py-3 text-right">
