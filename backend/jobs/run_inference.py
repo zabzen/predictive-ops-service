@@ -16,6 +16,7 @@ In production this would be replaced with a domain-specific trained model.
 import json
 import logging
 import sys
+from collections.abc import Sequence
 from datetime import datetime, timezone
 
 import numpy as np
@@ -38,7 +39,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger(__name__)
 
 
-def _engineer_features(readings: list[Reading]) -> np.ndarray | None:
+def _engineer_features(readings: Sequence[Reading]) -> np.ndarray | None:
     """Returns a feature vector or None if insufficient data."""
     fields = ["temperature_c", "vibration_mm_s", "pressure_bar", "flow_rate_m3h", "operating_hours"]
     rows = []
@@ -52,7 +53,7 @@ def _engineer_features(readings: list[Reading]) -> np.ndarray | None:
     return arr
 
 
-def _score_asset(readings: list[Reading]) -> tuple[float, dict[str, float]] | None:
+def _score_asset(readings: Sequence[Reading]) -> tuple[float, dict[str, float]] | None:
     """Returns (risk_probability, feature_contributions) or None."""
     from sklearn.ensemble import IsolationForest
     from sklearn.preprocessing import StandardScaler
